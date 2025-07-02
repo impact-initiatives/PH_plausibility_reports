@@ -1,15 +1,24 @@
-# Example for Standalone HTML FSL Plausibility Report
-
 # Please adapt with your own dataset and values.
 # FSL indicators must be standardized with impactR4PHU before using generating the run_fsl_plaus_html_report function.
 
-rm(list = ls())
+library(dplyr)
+library(purrr)
+library(fs)
 
-library(tidyverse)
+
+fs::dir_ls(here::here("R"), recurse = TRUE, glob = "*.R") |>
+  purrr::walk(
+    ~ source(.x)
+  )
+
 # library(impactR4PHU)
 
 data.test <- readxl::read_xlsx(
-  "inputs/REACH_MMR_MMR2402_MSNA_Dataset_toshare (1).xlsx",
+  here::here(
+    "fsl_quality_report",
+    "inputs",
+    "REACH_MMR_MMR2402_MSNA_Dataset_toshare (1).xlsx"
+  ),
   sheet = "01_clean_data_main"
 )
 
@@ -94,12 +103,41 @@ data.test2 <- data.test %>%
   )
 
 
+run_fsl_plaus_html_report <- function(.dataset = NULL,
+                                      uuid_var = "_uuid",
+                                      group_var = "enum_id",
+                                      output_file = "fsl_quality_report.pdf",
+                                      output_dir = "reports") {
+  if (is.null(.dataset)) {
+    stop("Error: 'dataset_main' must be provided.")
+  }
+  if (is.null(uuid_var)) {
+    stop("Error: 'uuid' variable must be provided.")
+  }
+  if (is.null(group_var)) {
+    stop("Error: 'group' var must be provided.")
+  }
+  rmarkdown::render(
+    input = here::here("fsl_quality_report", "fsl_quality_report_markdown.Rmd"),
+    output_file = output_file,
+    output_dir = output_dir,
+    params = list(
+      mainData = .dataset,
+      uuidVar = uuid_var,
+      GroupVar = group_var
+    ),
+  )
+}
+
+
 loop_values <- unique(data.test2[[loop_var]])
+
+
+reports_path <- here::here("fsl_quality_report", "reports")
+fs::dir_create(reports_path)
 
 for (i in 1:length(loop_values)) {
   print(loop_values[[i]])
-
-  dir.create("reports/")
 
   file_name <- paste0(
     "fsl_plaus_report_",
@@ -116,7 +154,7 @@ for (i in 1:length(loop_values)) {
     .dataset = data.test3,
     uuid_var = uuidVar,
     group_var = grouping_var,
-    output_dir = "reports/",
+    output_dir = reports_path,
     output_file = file_name
   )
 }
