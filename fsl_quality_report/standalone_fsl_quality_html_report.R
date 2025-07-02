@@ -11,8 +11,6 @@ fs::dir_ls(here::here("R"), recurse = TRUE, glob = "*.R") |>
     ~ source(.x)
   )
 
-# library(impactR4PHU)
-
 data.test <- readxl::read_xlsx(
   here::here(
     "fsl_quality_report",
@@ -103,11 +101,13 @@ data.test2 <- data.test %>%
   )
 
 
-run_fsl_plaus_html_report <- function(.dataset = NULL,
-                                      uuid_var = "_uuid",
-                                      group_var = "enum_id",
-                                      output_file = "fsl_quality_report.pdf",
-                                      output_dir = "reports") {
+run_fsl_plaus_html_report <- function(
+  .dataset = NULL,
+  uuid_var = "_uuid",
+  group_var = "enum_id",
+  output_file = "fsl_quality_report.pdf",
+  output_dir = "reports"
+) {
   if (is.null(.dataset)) {
     stop("Error: 'dataset_main' must be provided.")
   }
