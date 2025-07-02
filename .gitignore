@@ -47,3 +47,8 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+*/inputs/
+*/reports/
+*/output/
+test*.xlsx
