@@ -723,8 +723,8 @@
       "RemoteHost": "api.github.com",
       "RemoteUsername": "impact-initiatives",
       "RemoteRepo": "impactR4PHU",
-      "RemoteRef": "develop",
-      "RemoteSha": "ae3afe407a10fb86319f97c05a2f81473fc09e54",
+      "RemoteRef": "develop-pre-release",
+      "RemoteSha": "d4300c61c21491417b11f9d72b7117a8282be9b9",
       "Requirements": [
         "GGally",
         "apyramid",
@@ -736,6 +736,7 @@
         "knitr",
         "lubridate",
         "magrittr",
+        "methods",
         "nipnTK",
         "rlang",
         "rmarkdown",
@@ -746,7 +747,7 @@
         "writexl",
         "zscorer"
       ],
-      "Hash": "f35c6c762284f8a53f4be2d0086e6f0a"
+      "Hash": "10947f7807ca4f70a5d0c78a69a8b4a5"
     },
     "isoband": {
       "Package": "isoband",
