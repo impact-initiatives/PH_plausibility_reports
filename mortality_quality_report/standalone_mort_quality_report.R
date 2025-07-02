@@ -12,38 +12,63 @@
 
 # 4. You must pre-determine your 'expected' demographic values for some of the statistical tests. STU can support with this step.
 
-#clear environment
-rm(list = ls())
+#####################################
+
+
 
 #load libraries for tidyverse, ggplot2, and dplyr
+# library(impactR4PHU)
 library(tidyverse)
 library(ggplot2)
 library(dplyr)
 library(flextable)
 
+
+fs::dir_ls(here::here("R"), recurse = TRUE, glob = "*.R") |>
+  purrr::walk(
+    ~ source(.x)
+  )
+
 # Step 2. Load your datasets into a main, roster, and deaths dataframe. These should be somewhat standardized with mortality modules from IMPACT HQ.
+df_main <- readxl::read_xlsx(
+  here::here(
+    "mortality_quality_report",
+    "inputs",
+    "HTI2502 download data - 2025-06-30.xlsx"
+  ),
+  sheet = "main"
+)
 
-# list_car_data <- readRDS("data/msna/CAR_2025.RDS")
-#
-# df_main <- list_car_data$main_data
-# df_roster <- list_car_data$roster
-# df_died <- list_car_data$died_member
-
-# list_car_data <- readRDS("data/msna/CAR_2025.RDS")
-
-df_main <- readxl::read_xlsx("inputs/HTI2502 download data - 2025-06-30.xlsx", sheet = "main")
-
-df_roster <- readxl::read_xlsx("inputs/HTI2502 download data - 2025-06-30.xlsx", sheet = "roster") %>%
+df_roster <- readxl::read_xlsx(
+  here::here(
+    "mortality_quality_report",
+    "inputs",
+    "HTI2502 download data - 2025-06-30.xlsx"
+  ),
+  sheet = "roster"
+) %>%
   dplyr::rename(final_ind_dob = ind_dob_final,
-                calc_final_age_years = ind_under5_age_years)
+                calc_final_age_years = ind_under5_age_years)  
 
-df_died <- readxl::read_xlsx("inputs/HTI2502 download data - 2025-06-30.xlsx", sheet = "died_member")
+df_died <- readxl::read_xlsx(
+  here::here(
+    "mortality_quality_report",
+    "inputs",
+    "HTI2502 download data - 2025-06-30.xlsx"
+  ),
+  sheet = "died_member"
+)
 
-# Step 3. Load some additional functions used within the rmarkdown.
+# df_main <- readxl::read_xlsx("inputs/HTI2502 download data - 2025-06-30.xlsx", sheet = "main")
 
-source("src/functions_extra.R")
+# df_roster <- readxl::read_xlsx("inputs/HTI2502 download data - 2025-06-30.xlsx", sheet = "roster") %>%
+#   dplyr::rename(final_ind_dob = ind_dob_final,
+#                 calc_final_age_years = ind_under5_age_years)
 
-# 4. Set your parameters
+# df_died <- readxl::read_xlsx("inputs/HTI2502 download data - 2025-06-30.xlsx", sheet = "died_member")
+
+
+# 3. Set your parameters
 
 uuid_main <- "_index"
 uuid_roster <- "_parent_index"
@@ -169,16 +194,3 @@ for (i in 1:length(loop_values)) {
 #
 # # 6. Checking loop counts between roster/deaths and main
 # # 7. Recoding cause of deaths from other deaths
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#

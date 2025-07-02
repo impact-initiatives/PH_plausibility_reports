@@ -52,3 +52,6 @@ rsconnect/
 */reports/
 */output/
 test*.xlsx
+
+# macOS system files
+.DS_Store
