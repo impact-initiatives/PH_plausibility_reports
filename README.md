@@ -17,6 +17,11 @@ These tools are designed to identify issues in raw survey data and support feedb
    ```bash
    git clone https://github.com/ig-impact/PH_plausibility_reports
    ```
+For Rstudio specific instructions follow these steps:
+
+![Cloning an existing GitHub project in RStudio](https://argoshare.is.ed.ac.uk/healthyr_book/images/chapter14/7.png)
+
+*Figure: Screenshot from the [HealthyR Book – Cloning an Existing GitHub Project to a New RStudio Project](https://argoshare.is.ed.ac.uk/healthyr_book/clone-an-existing-github-project-to-new-rstudio-project.html), used with attribution.*
 
 2. Open the project in **RStudio**
 
