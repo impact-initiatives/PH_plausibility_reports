@@ -33,6 +33,8 @@ library(tidyverse)
 library(ggplot2)
 library(dplyr)
 library(flextable)
+library(purrr)
+library(fs)
 
 # Params
 
@@ -44,11 +46,15 @@ df_main <- params$mainData
 df_roster <- params$rosterData
 df_died <- params$deathsData
 
-writexl::write_xlsx(df_main, "test_main1.xlsx")
+
 
 # date <- df_main %>% dplyr::select(today, hh_uuid)
 
-source("src/functions_extra.R")
+fs::dir_ls(here::here("R"), recurse = TRUE, glob = "*.R") |>
+  purrr::walk(
+    ~ source(.x)
+  )
+
 
 # Calculate Roster Indicators
 
@@ -73,14 +79,7 @@ df_roster2 <- df_roster %>%
 #                 start = fix_excel_dates(as.numeric(df_main$start)),
 #                 end = fix_excel_dates(as.numeric(df_main$end))) 
 
-# writexl::write_xlsx(df_main2, "test_main2.xlsx")
 
-# writexl::write_xlsx(params$startDate, "teststartdate.xlsx")
-# writexl::write_xlsx(params$endDate, "testenddate.xlsx")
-
-
-
-# writexl::write_xlsx(df_main3, "test_main3.xlsx")
 
 df_mortality <- local_create_mortality_long_df(df_main = df_main, date_dc = "today", date_recall_event = "recall_date", 
                                                           uuid_main = "hh_uuid",
@@ -220,7 +219,6 @@ append <- data.frame(group = c("p-value"),
                      left_count = left_chk
                        )
 
-write.csv(df_main, "test_rmarkdown13.csv")
 
 # print("I am here 2")
 
@@ -256,7 +254,6 @@ mortality_quality_table2 <- binomial_ratio_test_rowwise(
     pval_colname = "age_ratio_under5_5plus.pvalue"
   )
 
-write.csv(df_main, "test_rmarkdown14.csv")
 
 mortality_quality_table3 <- t_test_rowwise_from_summary(
   data = mortality_quality_table2,
@@ -294,7 +291,6 @@ mortality_quality_table3 <- t_test_rowwise_from_summary(
   pval_colname = "left_hh.pvalue"
 )
   
-write.csv(df_main, "test_rmarkdown15.csv")
 
 mortality_quality_table_final <- mortality_quality_table3 %>%
   dplyr::select(
