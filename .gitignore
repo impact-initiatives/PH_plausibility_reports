@@ -1,8 +1,10 @@
 
-# Ignore all 'reports' folders and their contents recursively
-reports/
-**/reports/
-
+# Ignore all 'reports' 'inputs' 'output' folders and their contents recursively
+*/inputs/
+*/reports/
+*/output/
+# Ignore test files
+test*.xlsx
 
 # History files
 .Rhistory
@@ -55,10 +57,6 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 
-*/inputs/
-*/reports/
-*/output/
-test*.xlsx
-
 # macOS system files
 .DS_Store
+=======
