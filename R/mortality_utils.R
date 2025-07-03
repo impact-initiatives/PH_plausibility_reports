@@ -1084,11 +1084,13 @@ required_sisterhood_households <- function(
 render_quality_report <- function(main_data = NULL,
                                   roster_data = NULL,
                                   deaths_data = NULL,
+                                  uuid_main,
+                                  uuid_roster,
+                                  uuid_deaths,
                                   lang = "en",
                                   start_date = "2024-06-01",
                                   end_date = "2025-07-30",
                                   group_var = "enum",
-                                  
                                   exp_sexRatio = 1,
                                   exp_ageRatio_01_35 = 0.42,
                                   exp_ageRatio_05_10 = 0.51,
@@ -1096,10 +1098,10 @@ render_quality_report <- function(main_data = NULL,
                                   exp_meanHH_size = 5,
                                   exp_deathsPer_hh = 0.0792,
                                   exp_birthsPer_hh = 0.05,
-                                  
                                   output_file = "quality_report.pdf",
                                   output_dir = here::here("mortality_quality_report", "reports")) {
   
+
   if (is.null(main_data)) {
     stop("Error: 'dataset_main' must be provided.")
   }

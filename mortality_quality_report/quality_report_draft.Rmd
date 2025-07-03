@@ -73,14 +73,6 @@ df_roster2 <- df_roster %>%
 # Calculate Indicators for Mortality
 
 
-
-# df_main2 <- df_main %>% 
-#   dplyr::mutate(today = fix_excel_dates(as.numeric(df_main$today)),
-#                 start = fix_excel_dates(as.numeric(df_main$start)),
-#                 end = fix_excel_dates(as.numeric(df_main$end))) 
-
-
-
 df_mortality <- local_create_mortality_long_df(df_main = df_main, date_dc = "today", date_recall_event = "recall_date", 
                                                           uuid_main = "hh_uuid",
                                                           
@@ -218,9 +210,6 @@ append <- data.frame(group = c("p-value"),
                      join_count = join_chk,
                      left_count = left_chk
                        )
-
-
-# print("I am here 2")
 
 colnames(append) <- c("group", "sex_ratio", "age_ratio_under2_2to5", "age_ratio_under5_5to10", "age_ratio_under5_5plus", "mean_hh_size",
                        "mean_deaths_hh", "mean_births_hh", "mean_join_hh", "mean_left_hh")
