@@ -1,0 +1,46 @@
+#' run_muac_plaus_html_report
+#'
+#' @param .dataset Main Dataset
+#' @param uuid_var the name of the variable that indicates the uuid column
+#' @param team_var the name of the variable that indicates the team column, if it exists
+#' @param group_var the name of the variable that indicates the grouping column, usually enumerator ID column
+#' @param output_file the name of the output file
+#' @param output_dir the directory to export the output file
+#'
+#' @return an HTML rmarkdown file with MUAC quality summaries
+#' @export
+run_muac_plaus_html_report <- function(
+  .dataset = NULL,
+  uuid_var = "_uuid",
+  group_var = "enum_id",
+  template_path = here::here(
+    "muac_quality_report",
+    "muac_quality_report_markdown.Rmd"
+  ),
+  output_file = "muac_quality_report.html",
+  output_dir = "reports"
+) {
+  if (is.null(.dataset)) {
+    stop("Error: 'dataset_main' must be provided.")
+  }
+
+  if (is.null(uuid_var)) {
+    stop("Error: 'uuid' variable must be provided.")
+  }
+
+  if (is.null(group_var)) {
+    stop("Error: 'group' var must be provided.")
+  }
+
+  rmarkdown::render(
+    input = template_path,
+    output_file = output_file,
+    output_dir = output_dir,
+    params = list(
+      mainData = .dataset,
+      uuidVar = uuid_var,
+      GroupVar = group_var
+    ),
+    envir = new.env()
+  )
+}
