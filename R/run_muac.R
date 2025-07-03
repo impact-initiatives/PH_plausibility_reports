@@ -9,12 +9,14 @@
 #'
 #' @return an HTML rmarkdown file with MUAC quality summaries
 #' @export
-#'
-#' @examples
 run_muac_plaus_html_report <- function(
   .dataset = NULL,
   uuid_var = "_uuid",
   group_var = "enum_id",
+  template_path = here::here(
+    "muac_quality_report",
+    "muac_quality_report_markdown.Rmd"
+  ),
   output_file = "muac_quality_report.html",
   output_dir = "reports"
 ) {
@@ -31,14 +33,14 @@ run_muac_plaus_html_report <- function(
   }
 
   rmarkdown::render(
-    input = "muac_quality_report_markdown.Rmd", # Replace with your actual .Rmd file path
-    output_file = output_file, # Name of the output file
-    output_dir = output_dir, # Directory to save the report
+    input = template_path,
+    output_file = output_file,
+    output_dir = output_dir,
     params = list(
       mainData = .dataset,
       uuidVar = uuid_var,
       GroupVar = group_var
     ),
-    # envir = new.env()                  # Use a clean environment to avoid conflicts
+    envir = new.env()
   )
 }
