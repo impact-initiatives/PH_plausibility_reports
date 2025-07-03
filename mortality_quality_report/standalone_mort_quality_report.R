@@ -1,15 +1,27 @@
 
 ############################################################################################
-################ User Requirements for Running This Script #################################
-
-# 1. Your data must have columns for teams and enumerators, if you want to do enumerator level quality checks.
-# 2. Your data must have the following column names at least in the various main, roster, and deaths datasets.
-  # list_main_columns <- c( "today", "recall_date", "start", "end")
-  # list_roster_columns <- c("ind_gender", "calc_final_age_years", "final_ind_dob",)
-  # list_deaths_columns <- c("sex_died","calc_final_age_years_died", "dob_died", "final_date_death", "calc_final_age_years_died")
-# 3. You must 'pre-filter' your data by region or team before running the rmarkdown function. Best done with a for loop to iterate through each team.
-# 4. You must pre-determine your 'expected' demographic values for some of the statistical tests. STU can support with this step.
-###############################################################################################
+########################## Project Setup Instructions ######################################
+#
+# 1. In section 2. PARAMETERS, fill in the following to match your project context:
+#    - EXCEL_FILE_NAME: The name of your Excel data file (in 'mortality_quality_report/inputs').
+#    - SHEET_MAIN, SHEET_ROSTER, SHEET_DIED: The names of the sheets for main, roster, and deaths data.
+#    - UUID_MAIN, UUID_ROSTER, UUID_DEATHS: The column names for unique IDs in each dataset.
+#    - LANG: Output language ('en' or 'fr').
+#    - LOOP_VAR: The column to use for looping/grouping (e.g., region, zone, team).
+#    - GROUPING_VAR: The column to use for grouping in the report.
+#    - FILE_PATH: The output folder for reports.
+#    - START_DATE, END_DATE: The date range for filtering data.
+#    - EXP_*: All expected demographic/statistical values for plausibility checks.
+#
+# 2. Your data must have the required columns for teams, enumerators, and the minimum variables in each sheet:
+#      - Main:    today, recall_date, start, end
+#      - Roster:  ind_gender, calc_final_age_years, final_ind_dob
+#      - Deaths:  sex_died, calc_final_age_years_died, dob_died, final_date_death
+#
+# 3. Pre-filter your data by region/team if needed before running the report loop.
+#
+# 4. Set all parameters in section 3 before running the script. If unsure about expected values, consult the STU or your technical focal point.
+############################################################################################
 
 # 1. Load libraries and source functions
 library(tidyverse)
@@ -24,14 +36,15 @@ fs::dir_ls(here::here("R"), recurse = TRUE, glob = "*.R") |>
     ~ source(.x)
   )
 
-# 2. Load  datasets ---
-main_path   <- here::here("mortality_quality_report", "inputs", "HTI2502 download data - 2025-06-30.xlsx")
-df_main     <- readxl::read_xlsx(main_path, sheet = "main")
-df_roster   <- readxl::read_xlsx(main_path, sheet = "roster") %>%
-  dplyr::rename(final_ind_dob = ind_dob_final, calc_final_age_years = ind_under5_age_years)
-df_died     <- readxl::read_xlsx(main_path, sheet = "died_member")
+# 2. Set your PARAMETERS 
 
-# 3. Set your PARAMETERS 
+# ---- PARAMETERS for Excel file and sheet names ----
+EXCEL_FILE_NAME <- "HTI2502 download data - 2025-06-30.xlsx"  # Set your Excel file name here
+SHEET_MAIN      <- "main"         # Name of the main sheet
+SHEET_ROSTER    <- "roster"       # Name of the roster sheet
+SHEET_DIED      <- "died_member"  # Name of the deaths sheet
+
+# ---- Others Parameters ----
 UUID_MAIN      <- "_index"
 UUID_ROSTER    <- "_parent_index"
 UUID_DEATHS    <- "_parent_index"
@@ -59,10 +72,18 @@ EXP_BIRTHS_PER_HH     <- 0.05 # Estimated number of births per household, based 
 OUTPUT_DIR =  here::here("mortality_quality_report", FILE_PATH , Sys.Date())
 dir.create(OUTPUT_DIR)
 
+
+# 3. Load datasets ---
+main_path   <- here::here("mortality_quality_report", "inputs", EXCEL_FILE_NAME)
+df_main     <- readxl::read_xlsx(main_path, sheet = SHEET_MAIN)
+df_roster   <- readxl::read_xlsx(main_path, sheet = SHEET_ROSTER) %>%
+  dplyr::rename(final_ind_dob = ind_dob_final, calc_final_age_years = ind_under5_age_years)
+df_died     <- readxl::read_xlsx(main_path, sheet = SHEET_DIED)
+
+
 # 4. Iterate through your groups to produce pdf reports for each. Set the file naming conventions and output folder.
 
 loop_values <- unique(df_main[[LOOP_VAR]])
-
 
 # Use all_of() for tidyselect compatibility and to avoid warnings
 df_main <- df_main %>%
@@ -108,6 +129,7 @@ for (i in 1:length(loop_values)) {
     exp_meanHH_size = EXP_MEAN_HH_SIZE,
     exp_deathsPer_hh = EXP_DEATHS_PER_HH,
     exp_birthsPer_hh = EXP_BIRTHS_PER_HH,
+    input_file = here::here("mortality_quality_report", "quality_report_draft.Rmd"),
     output_file = FILE_NAME,
     output_dir = OUTPUT_DIR
   )
