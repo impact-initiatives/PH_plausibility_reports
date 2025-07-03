@@ -1,8 +1,7 @@
 
-# Ignore all 'reports' 'inputs' 'output' folders and their contents recursively
-*/inputs/
+# Ignore all 'reports' folders and their contents recursively
 */reports/
-*/output/
+
 # Ignore test files
 test*.xlsx
 
@@ -59,4 +58,3 @@ rsconnect/
 
 # macOS system files
 .DS_Store
-=======
