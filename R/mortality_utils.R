@@ -1098,7 +1098,7 @@ render_quality_report <- function(main_data = NULL,
                                   exp_birthsPer_hh = 0.05,
                                   
                                   output_file = "quality_report.pdf",
-                                  output_dir = "reports") {
+                                  output_dir = here::here("mortality_quality_report", "reports")) {
   
   if (is.null(main_data)) {
     stop("Error: 'dataset_main' must be provided.")
@@ -1125,7 +1125,7 @@ render_quality_report <- function(main_data = NULL,
   }
   
   rmarkdown::render(
-    input = "quality_report_draft.Rmd",         # Replace with your actual .Rmd file path
+    input =  here::here("mortality_quality_report", "quality_report_draft.Rmd"),         # Replace with your actual .Rmd file path
     output_file = output_file,         # Name of the output file
     output_dir = output_dir,           # Directory to save the report
     params = list(

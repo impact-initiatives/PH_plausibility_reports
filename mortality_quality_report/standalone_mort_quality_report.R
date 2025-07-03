@@ -22,6 +22,8 @@ library(tidyverse)
 library(ggplot2)
 library(dplyr)
 library(flextable)
+library(purrr)
+library(fs)
 
 
 fs::dir_ls(here::here("R"), recurse = TRUE, glob = "*.R") |>
@@ -111,14 +113,16 @@ df_died <- df_died %>%
   rename(hh_uuid = uuid_deaths) %>%
   dplyr::mutate(hh_uuid = as.character(hh_uuid))
 
-dir.create(paste0(file_path, "/", Sys.Date()))
+# Variable
+OUTPUT_DIR =  here::here("mortality_quality_report",file_path , Sys.Date())
+dir.create(OUTPUT_DIR)
 
 for (i in 1:length(loop_values)) {
 
   print(loop_values[[i]])
 
   file_name <- paste0("mortality_quality_report_", loop_values[[i]], "_", Sys.Date(), ".html")
-
+  print(paste0("File name: ", file_name))
   print(paste0("1 ncol: ", nrow(df_main)))
 
   df_main2 <- df_main %>%
@@ -150,12 +154,14 @@ for (i in 1:length(loop_values)) {
                         exp_deathsPer_hh = exp_deathsPer_hh,
                         exp_birthsPer_hh = exp_birthsPer_hh,
                         output_file = file_name,
-                        output_dir = paste0(file_path, "/", Sys.Date()))
+                        output_dir = OUTPUT_DIR)
 
 }
 
 
-#
+
+
+# #
 # # Test specific cases CF533 CF224
 #
 # df_main2 <- df_main %>% dplyr::filter(admin2 == "CF533")
