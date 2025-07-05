@@ -1,0 +1,141 @@
+name: Bug report
+description: File a bug report for PH_plausibility_reports
+title: "[BUG] Brief but specific description of the issue"
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve **PH_plausibility_reports**!
+
+        Please complete all fields below. Clear, reproducible reports help us resolve issues faster.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: |
+        What did you expect to happen, and what actually happened?
+        Include any error messages, unexpected output, or screenshots if relevant.
+      placeholder: "Describe the observed behavior and expected result"
+    validations:
+      required: true
+
+  - type: textarea
+    id: reprex
+    attributes:
+      label: Minimal reproducible example (`reprex`)
+      description: |
+        Provide a small, self-contained example using the [reprex](https://reprex.tidyverse.org/) package.
+
+        Example using `plausibility_report_muac()`:
+        ````r
+        library(PHplausibility)
+        df <- data.frame(
+          age_months = c(12, 24, 36),
+          muac = c(105, 145, 110),
+          sex = c("male", "female", "female"),
+          edema = c("no", "no", "yes")
+        )
+        report <- plausibility_report_muac(df)
+        print(report)
+        ````
+
+        If you can't create a reprex, please explain why.
+      render: r
+      placeholder: "<Insert a runnable, minimal example here>"
+    validations:
+      required: true
+
+  - type: input
+    id: rtools
+    attributes:
+      label: RTools or Xcode Command Line Tools installed?
+      description: |
+        On Windows: do you have RTools installed?  
+        On macOS: do you have Xcode CLI tools installed?
+      placeholder: "Yes / No / Not sure"
+
+  - type: input
+    id: system
+    attributes:
+      label: Operating System
+      placeholder: "e.g., macOS 14.2, Windows 11, Ubuntu 22.04"
+
+  - type: input
+    id: repo_commit
+    attributes:
+      label: Version of this repo (Git commit hash)
+      description: |
+        If you cloned via RStudio, check the Git pane for the latest commit hash.
+        You can also find it on GitHub: https://github.com/ig-impact/PH_plausibility_reports/commits
+
+        Leave blank if unsure.
+      placeholder: "e.g., 3a14dcd (optional)"
+
+  - type: textarea
+    id: impactr_version
+    attributes:
+      label: Git reference of impactR4PHU (from renv.lock)
+      description: |
+        Please extract the Git reference used for {impactR4PHU} from your `renv.lock` file.
+        This ensures we can reproduce the exact code version you're using.
+
+        Run this in your R console:
+
+        ```r
+        if (!requireNamespace("jsonlite", quietly = TRUE)) {
+          install.packages("jsonlite")
+        }
+        json <- jsonlite::read_json("renv.lock", simplifyVector = TRUE)
+        json$Packages$impactR4PHU[c("RemoteRef", "RemoteSha")]
+        ```
+
+        Then copy and paste the output below. It should look like this:
+
+        ```r
+        $RemoteRef
+        [1] "main"
+
+        $RemoteSha
+        [1] "9b1a4d8b84c8b3f12e4e5fd5fdd2bd8bce5f9f0e"
+        ```
+      render: text
+      placeholder: |
+        $RemoteRef
+        [1] "main"
+
+        $RemoteSha
+        [1] "9b1a4d8b84c8b3f12e4e5fd5fdd2bd8bce5f9f0e"
+    validations:
+      required: true
+
+  - type: textarea
+    id: session_info
+    attributes:
+      label: Session Info
+      description: |
+        Paste the output of `devtools::session_info()`.
+
+        If you don’t have {devtools}, use:
+
+        ```r
+        sessionInfo()
+        ```
+
+        Or install devtools with:
+
+        ```r
+        install.packages("devtools")
+        ```
+      render: text
+      placeholder: "<Paste your session info output here>"
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Anything else?
+      description: |
+        Include screenshots, links to related issues, or anything else that might help.
