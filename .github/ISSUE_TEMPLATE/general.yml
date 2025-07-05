@@ -1,0 +1,76 @@
+name: General Issue
+description: Report a bug, suggest a new feature, or ask a question.
+title: "[ISSUE]: "
+labels: ["triage"]
+body:
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: What type of issue is this?
+      options:
+        - Bug report 🐛
+        - Feature request ✨
+        - Question ❓
+      default: 0
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: |
+        Please describe the issue, feature request, or question in detail.
+        Include what you expected to happen and what actually happened if reporting a bug.
+      placeholder: "What happened or what are you trying to do?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro_steps
+    attributes:
+      label: Steps to Reproduce (for bugs)
+      description: |
+        List the steps to reproduce the bug. Include any code snippets, input data, or relevant files if possible.
+      placeholder: |
+        1. Go to '...'
+        2. Run '...'
+        3. See error '...'
+      render: shell
+
+  - type: input
+    id: r_version
+    attributes:
+      label: R version
+      description: What version of R are you using?
+      placeholder: "e.g., 4.3.1"
+  
+  - type: input
+    id: os
+    attributes:
+      label: Operating System
+      description: |
+        Which OS and environment are you using?
+      placeholder: "e.g., Windows 11, macOS 14, Ubuntu 22.04"
+
+  - type: input
+    id: data_source
+    attributes:
+      label: Data source format
+      description: |
+        What kind of data are you using (e.g., Kobo export, cleaned XLSX, etc.)?
+
+  - type: checkboxes
+    id: existing_issues
+    attributes:
+      label: Have you checked for existing issues?
+      options:
+        - label: I have searched existing issues and none match this one.
+          required: true
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional context
+      description: |
+        Add any other context, logs, screenshots, or links that may help us understand the issue.
