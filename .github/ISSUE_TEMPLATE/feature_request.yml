@@ -32,23 +32,8 @@ body:
     id: r_version
     attributes:
       label: R version
-      description: What version of R are you using?
-      placeholder: "e.g., 4.3.1"
-  
-  - type: input
-    id: os
-    attributes:
-      label: Operating System
-      description: |
-        Which OS and environment are you using?
-      placeholder: "e.g., Windows 11, macOS 14, Ubuntu 22.04"
-
-  - type: input
-    id: data_source
-    attributes:
-      label: Data source format
-      description: |
-        What kind of data are you using (e.g., Kobo export, cleaned XLSX, etc.)?
+      description: Please run `R.version.string` in your console and paste the output here.
+      placeholder: "e.g., R version 4.3.1 (2023-06-16)"
 
   - type: checkboxes
     id: existing_issues
