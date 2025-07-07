@@ -67,6 +67,12 @@ EXP_BIRTHS_PER_HH <- 0.05 # Estimated number of births per household, based on e
 # Expected births per household = Births per 1000 people per year * (Number recall days / 365 days per year) * Avg household size
 # (b <- (22.2*180*4.4)/(365*1000))
 
+# ---- Parameters for plausibility checks ----
+ROSTER_ind_gender_RECODE <- c(
+  "homme" = "male",
+  "femme" = "female"
+)
+
 # ---- Derived Parameters (computed from user parameters) ----
 OUTPUT_DIR <- here::here("mortality_quality_report", FILE_PATH, Sys.Date())
 dir.create(OUTPUT_DIR)
@@ -79,6 +85,12 @@ df_roster <- readxl::read_xlsx(main_path, sheet = SHEET_ROSTER) %>%
   dplyr::rename(
     final_ind_dob = ind_dob_final,
     calc_final_age_years = ind_under5_age_years
+  ) |>
+  dplyr::mutate(
+    ind_gender = stringr::str_replace_all(
+      ind_gender,
+      pattern = ROSTER_ind_gender_RECODE
+    )
   )
 df_died <- readxl::read_xlsx(main_path, sheet = SHEET_DIED)
 
