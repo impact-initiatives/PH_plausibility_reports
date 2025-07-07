@@ -1,4 +1,3 @@
-
 ############################################################################################
 ########################## Project Setup Instructions ######################################
 #
@@ -36,49 +35,52 @@ fs::dir_ls(here::here("R"), recurse = TRUE, glob = "*.R") |>
     ~ source(.x)
   )
 
-# 2. Set your PARAMETERS 
+# 2. Set your PARAMETERS
 
 # ---- PARAMETERS for Excel file and sheet names ----
-EXCEL_FILE_NAME <- "HTI2502 download data - 2025-06-30.xlsx"  # Set your Excel file name here
-SHEET_MAIN      <- "main"         # Name of the main sheet
-SHEET_ROSTER    <- "roster"       # Name of the roster sheet
-SHEET_DIED      <- "died_member"  # Name of the deaths sheet
+EXCEL_FILE_NAME <- "HTI2502 download data - 2025-06-30.xlsx" # Set your Excel file name here
+SHEET_MAIN <- "main" # Name of the main sheet
+SHEET_ROSTER <- "roster" # Name of the roster sheet
+SHEET_DIED <- "died_member" # Name of the deaths sheet
 
 # ---- Others Parameters ----
-UUID_MAIN      <- "_index"
-UUID_ROSTER    <- "_parent_index"
-UUID_DEATHS    <- "_parent_index"
-LANG           <- "fr" # en / fr
-LOOP_VAR       <- "zone"
-GROUPING_VAR   <- "admin1"
-FILE_PATH      <- "reports"
-START_DATE     <- "2024-06-01"
-END_DATE       <- "2026-09-30"
+UUID_MAIN <- "_index"
+UUID_ROSTER <- "_parent_index"
+UUID_DEATHS <- "_parent_index"
+LANG <- "fr" # en / fr
+LOOP_VAR <- "zone"
+GROUPING_VAR <- "admin1"
+FILE_PATH <- "reports"
+START_DATE <- "2024-06-01"
+END_DATE <- "2026-09-30"
 
-EXP_SEX_RATIO         <- 0.048 # Estimated sex ratio, assuming 50% male.
-EXP_AGE_RATIO_01_35   <- 0.42 # Estimated proportion of children under-2 out of all under-5 children.
-EXP_AGE_RATIO_05_10   <- 0.51 # Estimated proportion of children under-5 out of all under-10 children.
-EXP_AGE_RATIO_05_5PLUS<- 0.15 # Estimated proportion of children under-5 out of all people.
-EXP_MEAN_HH_SIZE      <- 4.4  # Estimated average household size.
-EXP_DEATHS_PER_HH     <- 0.057816 # Estimated number of deaths per household, based on estimated CDR, length of recall period, and household size
+EXP_SEX_RATIO <- 0.048 # Estimated sex ratio, assuming 50% male.
+EXP_AGE_RATIO_01_35 <- 0.42 # Estimated proportion of children under-2 out of all under-5 children.
+EXP_AGE_RATIO_05_10 <- 0.51 # Estimated proportion of children under-5 out of all under-10 children.
+EXP_AGE_RATIO_05_5PLUS <- 0.15 # Estimated proportion of children under-5 out of all people.
+EXP_MEAN_HH_SIZE <- 4.4 # Estimated average household size.
+EXP_DEATHS_PER_HH <- 0.057816 # Estimated number of deaths per household, based on estimated CDR, length of recall period, and household size
 # Expected deaths per household = CDR * Average HH Size * Number recall days / 10000
 # (a <- (0.73*4.4*180) / 10000 )
 # 0.057816
-EXP_BIRTHS_PER_HH     <- 0.05 # Estimated number of births per household, based on estimated Birth Rate, length of recall period, and household size
+EXP_BIRTHS_PER_HH <- 0.05 # Estimated number of births per household, based on estimated Birth Rate, length of recall period, and household size
 # Expected births per household = Births per 1000 people per year * (Number recall days / 365 days per year) * Avg household size
 # (b <- (22.2*180*4.4)/(365*1000))
 
 # ---- Derived Parameters (computed from user parameters) ----
-OUTPUT_DIR =  here::here("mortality_quality_report", FILE_PATH , Sys.Date())
+OUTPUT_DIR = here::here("mortality_quality_report", FILE_PATH, Sys.Date())
 dir.create(OUTPUT_DIR)
 
 
 # 3. Load datasets ---
-main_path   <- here::here("mortality_quality_report", "inputs", EXCEL_FILE_NAME)
-df_main     <- readxl::read_xlsx(main_path, sheet = SHEET_MAIN)
-df_roster   <- readxl::read_xlsx(main_path, sheet = SHEET_ROSTER) %>%
-  dplyr::rename(final_ind_dob = ind_dob_final, calc_final_age_years = ind_under5_age_years)
-df_died     <- readxl::read_xlsx(main_path, sheet = SHEET_DIED)
+main_path <- here::here("mortality_quality_report", "inputs", EXCEL_FILE_NAME)
+df_main <- readxl::read_xlsx(main_path, sheet = SHEET_MAIN)
+df_roster <- readxl::read_xlsx(main_path, sheet = SHEET_ROSTER) %>%
+  dplyr::rename(
+    final_ind_dob = ind_dob_final,
+    calc_final_age_years = ind_under5_age_years
+  )
+df_died <- readxl::read_xlsx(main_path, sheet = SHEET_DIED)
 
 
 # 4. Iterate through your groups to produce pdf reports for each. Set the file naming conventions and output folder.
@@ -99,10 +101,15 @@ df_died <- df_died %>%
   dplyr::mutate(hh_uuid = as.character(hh_uuid))
 
 for (i in 1:length(loop_values)) {
-
   print(loop_values[[i]])
 
-  FILE_NAME <- paste0("mortality_quality_report_", loop_values[[i]], "_", Sys.Date(), ".html")
+  FILE_NAME <- paste0(
+    "mortality_quality_report_",
+    loop_values[[i]],
+    "_",
+    Sys.Date(),
+    ".html"
+  )
 
   df_main2 <- df_main %>%
     dplyr::filter(!!sym(LOOP_VAR) == loop_values[[i]]) %>%
@@ -129,7 +136,10 @@ for (i in 1:length(loop_values)) {
     exp_meanHH_size = EXP_MEAN_HH_SIZE,
     exp_deathsPer_hh = EXP_DEATHS_PER_HH,
     exp_birthsPer_hh = EXP_BIRTHS_PER_HH,
-    input_file = here::here("mortality_quality_report", "quality_report_draft.Rmd"),
+    input_file = here::here(
+      "mortality_quality_report",
+      "quality_report_draft.Rmd"
+    ),
     output_file = FILE_NAME,
     output_dir = OUTPUT_DIR
   )
