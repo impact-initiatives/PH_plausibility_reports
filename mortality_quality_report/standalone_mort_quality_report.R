@@ -68,7 +68,7 @@ EXP_BIRTHS_PER_HH <- 0.05 # Estimated number of births per household, based on e
 # (b <- (22.2*180*4.4)/(365*1000))
 
 # ---- Derived Parameters (computed from user parameters) ----
-OUTPUT_DIR = here::here("mortality_quality_report", FILE_PATH, Sys.Date())
+OUTPUT_DIR <- here::here("mortality_quality_report", FILE_PATH, Sys.Date())
 dir.create(OUTPUT_DIR)
 
 
