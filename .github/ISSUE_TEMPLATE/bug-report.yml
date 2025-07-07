@@ -1,0 +1,157 @@
+name: Bug report
+description: File a bug report for PH_plausibility_reports
+title: "[BUG] Brief but specific description of the issue"
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve **PH_plausibility_reports**!
+
+        Please complete all fields below. Clear, reproducible reports help us resolve issues faster.
+
+  - type: dropdown
+    id: report_type
+    attributes:
+      label: Which report is affected?
+      options:
+        - FSL Quality Report
+        - Mortality Quality Report
+        - MUAC Quality Report
+        - Other/Core Utility
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: |
+        What did you expect to happen, and what actually happened?
+        Include any error messages, unexpected output, or screenshots if relevant.
+      placeholder: "Describe the observed behavior and expected result"
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps_to_reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: |
+        Please provide a minimal, self-contained, and reproducible example.
+        This allows us to quickly verify the bug and find a solution.
+        Include any relevant code snippets or data.
+      placeholder: |
+        1. Run `...`
+        2. With this data `...`
+        3. See error `...`
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: build_tools
+    attributes:
+      label: Build Tools Installed? (Optional)
+      description: "Do you have RTools (Windows) or Xcode Command Line Tools (macOS) installed? This is often required for installing packages from source."
+      options:
+        - label: "I have build tools installed."
+          required: false
+
+  - type: input
+    id: build_tools_version
+    attributes:
+      label: Build Tools Version (if applicable)
+      description: "If you checked the box above, please provide the version of RTools or Xcode."
+      placeholder: "e.g., RTools 4.3, Xcode 15.0"
+
+  - type: input
+    id: system
+    attributes:
+      label: Operating System
+      placeholder: "e.g., macOS 14.2, Windows 11, Ubuntu 22.04"
+
+  - type: input
+    id: repo_commit
+    attributes:
+      label: Version of this repo (Git commit hash)
+      description: |
+        If you cloned via RStudio, check the Git pane for the latest commit hash.
+        You can also find it on GitHub: https://github.com/ig-impact/PH_plausibility_reports/commits
+
+        Leave blank if unsure.
+      placeholder: "e.g., 3a14dcd (optional)"
+
+  - type: textarea
+    id: impactr_version
+    attributes:
+      label: Git reference of impactR4PHU (from renv.lock)
+      description: |
+        Please extract the Git reference used for {impactR4PHU} from your `renv.lock` file.
+        This ensures we can reproduce the exact code version you'''re using.
+
+        Run this in your R console:
+
+        ```r
+        if (!requireNamespace("jsonlite", quietly = TRUE)) {
+          install.packages("jsonlite")
+        }
+        json <- jsonlite::read_json("renv.lock", simplifyVector = TRUE)
+        json$Packages$impactR4PHU[c("RemoteRef", "RemoteSha")]
+        ```
+
+        Then copy and paste the output below. It should look like this:
+
+        ```r
+        $RemoteRef
+        [1] "main"
+
+        $RemoteSha
+        [1] "9b1a4d8b84c8b3f12e4e5fd5fdd2bd8bce5f9f0e"
+        ```
+      render: text
+      placeholder: |
+        $RemoteRef
+        [1] "main"
+
+        $RemoteSha
+        [1] "9b1a4d8b84c8b3f12e4e5fd5fdd2bd8bce5f9f0e"
+    validations:
+      required: true
+
+  - type: textarea
+    id: session_info
+    attributes:
+      label: Session Info
+      description: |
+        To help us debug effectively, please paste the output of `devtools::session_info()` below.
+
+        ```r
+        # Run this command in your R console and paste the output
+        devtools::session_info()
+        ```
+
+        <details>
+        <summary>Don't have {devtools} installed?</summary>
+
+        The `{devtools}` package provides the most detailed information. You can install it by running:
+        ```r
+        install.packages("devtools")
+        ```
+
+        If you prefer not to install a new package, you can use the built-in `sessionInfo()` function instead, although its output is less detailed.
+        ```r
+        # Alternative command
+        sessionInfo()
+        ```
+        </details>
+      render: r
+      placeholder: "<Paste the output of devtools::session_info() here>"
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Anything else?
+      description: |
+        Include screenshots, links to related issues, or anything else that might help.
