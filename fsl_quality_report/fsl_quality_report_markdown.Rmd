@@ -466,7 +466,7 @@ if(all(rcsi_check_columns %in% names(raw.flag.fcs))) {
 
 ```{r, results='asis'}
 
-writexl::write_xlsx(raw.flag.fcs, here::here("fsl_quality_report", "test_dataset_flags.xlsx"))
+writexl::write_xlsx(raw.flag.fcs, here::here("fsl_quality_report", "output", "fsl_dataset_with_flags.xlsx"))
 
 if(all(fcs_check_columns %in% names(raw.flag.fcs)) &
    all(rcsi_check_columns %in% names(raw.flag.fcs)) &
