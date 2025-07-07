@@ -10,6 +10,18 @@ body:
 
         Please complete all fields below. Clear, reproducible reports help us resolve issues faster.
 
+  - type: dropdown
+    id: report_type
+    attributes:
+      label: Which report is affected?
+      options:
+        - FSL Quality Report
+        - Mortality Quality Report
+        - MUAC Quality Report
+        - Other/Core Utility
+    validations:
+      required: true
+
   - type: textarea
     id: description
     attributes:
@@ -22,39 +34,35 @@ body:
       required: true
 
   - type: textarea
-    id: reprex
+    id: steps_to_reproduce
     attributes:
-      label: Minimal reproducible example (`reprex`)
+      label: Steps to Reproduce
       description: |
-        Provide a small, self-contained example using the [reprex](https://reprex.tidyverse.org/) package.
-
-        Example using `plausibility_report_muac()`:
-        ````r
-        library(PHplausibility)
-        df <- data.frame(
-          age_months = c(12, 24, 36),
-          muac = c(105, 145, 110),
-          sex = c("male", "female", "female"),
-          edema = c("no", "no", "yes")
-        )
-        report <- plausibility_report_muac(df)
-        print(report)
-        ````
-
-        If you can't create a reprex, please explain why.
-      render: r
-      placeholder: "<Insert a runnable, minimal example here>"
+        Please provide a minimal, self-contained, and reproducible example.
+        This allows us to quickly verify the bug and find a solution.
+        Include any relevant code snippets or data.
+      placeholder: |
+        1. Run `...`
+        2. With this data `...`
+        3. See error `...`
     validations:
       required: true
 
-  - type: input
-    id: rtools
+  - type: checkboxes
+    id: build_tools
     attributes:
-      label: RTools or Xcode Command Line Tools installed?
-      description: |
-        On Windows: do you have RTools installed?  
-        On macOS: do you have Xcode CLI tools installed?
-      placeholder: "Yes / No / Not sure"
+      label: Build Tools Installed? (Optional)
+      description: "Do you have RTools (Windows) or Xcode Command Line Tools (macOS) installed? This is often required for installing packages from source."
+      options:
+        - label: "I have build tools installed."
+          required: false
+
+  - type: input
+    id: build_tools_version
+    attributes:
+      label: Build Tools Version (if applicable)
+      description: "If you checked the box above, please provide the version of RTools or Xcode."
+      placeholder: "e.g., RTools 4.3, Xcode 15.0"
 
   - type: input
     id: system
@@ -79,7 +87,7 @@ body:
       label: Git reference of impactR4PHU (from renv.lock)
       description: |
         Please extract the Git reference used for {impactR4PHU} from your `renv.lock` file.
-        This ensures we can reproduce the exact code version you're using.
+        This ensures we can reproduce the exact code version you'''re using.
 
         Run this in your R console:
 
@@ -115,21 +123,29 @@ body:
     attributes:
       label: Session Info
       description: |
-        Paste the output of `devtools::session_info()`.
-
-        If you don’t have {devtools}, use:
+        To help us debug effectively, please paste the output of `devtools::session_info()` below.
 
         ```r
-        sessionInfo()
+        # Run this command in your R console and paste the output
+        devtools::session_info()
         ```
 
-        Or install devtools with:
+        <details>
+        <summary>Don't have {devtools} installed?</summary>
 
+        The `{devtools}` package provides the most detailed information. You can install it by running:
         ```r
         install.packages("devtools")
         ```
-      render: text
-      placeholder: "<Paste your session info output here>"
+
+        If you prefer not to install a new package, you can use the built-in `sessionInfo()` function instead, although its output is less detailed.
+        ```r
+        # Alternative command
+        sessionInfo()
+        ```
+        </details>
+      render: r
+      placeholder: "<Paste the output of devtools::session_info() here>"
     validations:
       required: true
 

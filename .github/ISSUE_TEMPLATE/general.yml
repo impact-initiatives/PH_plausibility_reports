@@ -1,5 +1,5 @@
 name: General Issue
-description: Report a bug, suggest a new feature, or ask a question.
+description: Suggest a new feature, or ask a question.
 title: "[ISSUE]: "
 labels: ["triage"]
 body:
@@ -8,7 +8,6 @@ body:
     attributes:
       label: What type of issue is this?
       options:
-        - Bug report 🐛
         - Feature request ✨
         - Question ❓
       default: 0
@@ -33,9 +32,9 @@ body:
       description: |
         List the steps to reproduce the bug. Include any code snippets, input data, or relevant files if possible.
       placeholder: |
-        1. Go to '...'
-        2. Run '...'
-        3. See error '...'
+        1. Go to '''...'''
+        2. Run '''...'''
+        3. See error '''...'''
       render: shell
 
   - type: input
