@@ -54,7 +54,7 @@ FILE_PATH <- "reports"
 START_DATE <- "2024-06-01"
 END_DATE <- "2026-09-30"
 
-EXP_SEX_RATIO <- 0.048 # Estimated sex ratio, assuming 50% male.
+EXP_SEX_RATIO <- 0.5 # Estimated sex ratio, assuming 50% male.
 EXP_AGE_RATIO_01_35 <- 0.42 # Estimated proportion of children under-2 out of all under-5 children.
 EXP_AGE_RATIO_05_10 <- 0.51 # Estimated proportion of children under-5 out of all under-10 children.
 EXP_AGE_RATIO_05_5PLUS <- 0.15 # Estimated proportion of children under-5 out of all people.
