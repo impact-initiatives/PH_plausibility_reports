@@ -51,6 +51,17 @@ data.test2 <- data.test %>%
     sometimes_answer = "sometimes",
     often_answer = "often"
   ) %>%
+  impactR4PHU::add_fcs(
+    fsl_fcs_cereal = "fsl_fcs_cereal",
+    fsl_fcs_legumes = "fsl_fcs_legumes",
+    fsl_fcs_veg = "fsl_fcs_veg",
+    fsl_fcs_dairy = "fsl_fcs_dairy",
+    fsl_fcs_fruit = "fsl_fcs_fruit",
+    fsl_fcs_meat = "fsl_fcs_meat",
+    fsl_fcs_sugar = "fsl_fcs_sugar",
+    fsl_fcs_oil = "fsl_fcs_oil",
+    cutoffs = "normal"
+  ) %>%
   impactR4PHU::add_fcm_phase(
     fcs_column_name = "fsl_fcs_cat",
     rcsi_column_name = "fsl_rcsi_cat",
